@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# source the configuration
+. /etc/init.d/rc.conf

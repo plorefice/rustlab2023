@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+qemu-system-x86_64 \
+	-kernel linux/arch/x86_64/boot/bzImage \
+	-initrd initramfs.cpio.gz \
+	-nographic -append "console=ttyS0 rdinit=/sbin/init"
+
