@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+# Create and pack initramfs
+rm -rf initramfs
+mkdir -p initramfs
+pushd initramfs
+mkdir -p bin sbin etc dev proc sys usr/bin usr/sbin
+cp -a ../busybox/_install/* .
+rm linuxrc
+sudo mknod -m 644 dev/console c 5 1
+sudo mknod -m 644 dev/loop0 b 7 0
+cp -a ../skel/init .
+find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../initramfs.cpio.gz
+popd
+
