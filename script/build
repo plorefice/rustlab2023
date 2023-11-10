@@ -4,14 +4,8 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-# Build busybox
-pushd busybox
+# Build kernel
+pushd linux
 make -j$(nproc)
-make CONFIG_PREFIX=../initramfs install
-popd
-
-# Build initramds
-pushd initramfs
-find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../initramfs.cpio.gz
-popd
+popd # linux
 

@@ -4,7 +4,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-# Create and pack initramfs
+# Create initramfs skeleton
 rm -rf initramfs && mkdir -p initramfs
 pushd initramfs
 
@@ -40,8 +40,27 @@ ln -s /proc/self/fd/2 stderr
 popd # dev
 
 ln -s /proc/mounts etc/mtab
-
 rsync -rlpDSv ../skel/ .
-
 popd # initramfs
+
+
+# Build busybox
+pushd busybox
+cp -a ../config/busybox.config .config
+make -j$(nproc)
+make CONFIG_PREFIX=../initramfs install
+popd # busybox
+
+
+# Build initramfs
+pushd initramfs
+find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../initramfs.cpio.gz
+popd # initramfs
+
+
+# Configure kernel
+pushd linux
+make defconfig
+make kvm_guest.config
+popd # linux
 
