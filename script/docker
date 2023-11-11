@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+# NOTE: Keep the mount points aligned with the default workspace folder in VSCode's devcontainers
+#       to be able to seamlessly switch between compiling from within/outside the container.
+docker run --rm -ti -u ubuntu \
+    -v "$(pwd)":/workspaces/rustlab2023 \
+    -w /workspaces/rustlab2023 \
+    rustlab2023 \
+    "$@"

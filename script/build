@@ -4,10 +4,13 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+source script/env
+ensure-container
+
 # Build kernel
 pushd linux
-make -j$(nproc)
-make INSTALL_MOD_PATH=../initramfs modules_install
+make LLVM=1 -j$(nproc)
+make LLVM=1 INSTALL_MOD_PATH=../initramfs modules_install
 popd # linux
 
 # Build drivers

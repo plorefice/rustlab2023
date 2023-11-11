@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Make sure we are in a container, and if not, run the command in the container
+function ensure-container()
+{
+	if [[ -z "${INSIDE_DOCKER_CONTAINER+x}" ]]; then
+		script/docker "$0" "$@"
+		exit $?
+	fi
+}
