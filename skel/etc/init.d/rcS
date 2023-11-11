@@ -2,3 +2,13 @@
 
 # source the configuration
 . /etc/init.d/rc.conf
+
+# essential mounts
+mount -n -t proc none /proc
+mount -n -t sysfs none /sys
+mount -n -t devpts none /dev/pts
+mount -n -t tmpfs shm /dev/shm
+
+# spawn mdev as daemon
+/sbin/mdev -d
+

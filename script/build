@@ -7,5 +7,16 @@ cd "$(dirname "$0")/.."
 # Build kernel
 pushd linux
 make -j$(nproc)
+make INSTALL_MOD_PATH=../initramfs modules_install
 popd # linux
+
+# Build drivers
+for dir in drivers/*; do
+	make -C $dir -j$(nproc)
+done
+
+# Build initramfs
+pushd initramfs
+find . -print0 | cpio --null -ov --format=newc | gzip -9 > ../initramfs.cpio.gz
+popd # initramfs
 
