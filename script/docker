@@ -9,5 +9,5 @@ cd "$(dirname "$0")/.."
 docker run --rm -ti -u ubuntu \
     -v "$(pwd)":/workspaces/rustlab2023 \
     -w /workspaces/rustlab2023 \
-    rustlab2023 \
+    plorefice/rustlab2023:latest \
     "$@"
