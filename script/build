@@ -8,10 +8,12 @@ source script/env
 ensure-container
 
 # Build kernel
-pushd linux
-make LLVM=1 -j$(nproc)
-make LLVM=1 INSTALL_MOD_PATH=../initramfs modules_install
-popd # linux
+if [[ ! -e 'linux/arch/x86_64/boot/bzImage' ]]; then
+	pushd linux
+	make LLVM=1 -j$(nproc)
+	make LLVM=1 INSTALL_MOD_PATH=../initramfs modules_install
+	popd # linux
+fi
 
 # Build drivers
 for dir in drivers/*; do
