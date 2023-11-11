@@ -10,14 +10,16 @@ ensure-container
 # Build kernel
 if [[ ! -e 'linux/arch/x86_64/boot/bzImage' ]]; then
 	pushd linux
-	make LLVM=1 -j$(nproc)
+	make LLVM=1 -j"$(nproc)"
 	make LLVM=1 INSTALL_MOD_PATH=../initramfs modules_install
 	popd # linux
 fi
 
 # Build drivers
 for dir in drivers/*; do
-	make -C $dir -j$(nproc)
+	if [[ -d $dir && -e $dir/Makefile ]]; then
+		make -C "$dir" -j"$(nproc)"
+	fi
 done
 
 # Build initramfs

@@ -20,7 +20,7 @@ popd # initramfs
 # Build busybox
 pushd busybox
 cp -a ../config/busybox.config .config
-make -j$(nproc)
+make -j"$(nproc)"
 make CONFIG_PREFIX=../initramfs install
 popd # busybox
 
