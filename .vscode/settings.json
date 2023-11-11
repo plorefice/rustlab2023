@@ -1,0 +1,6 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "linux/rust-project.json",
+        "drivers/hello-rust/rust-project.json"
+    ]
+}
