@@ -1,2 +1,16 @@
+# Initrd
 /initramfs
 *.cpio.gz
+
+# Module artifacts
+*.o
+*.ko
+*.cmd
+*.mod
+*.mod.c
+modules.order
+Module.symvers
+
+# rust-analyzer configuration
+rust-project.json
+
